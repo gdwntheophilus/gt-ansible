@@ -1,9 +1,9 @@
 <p align="center">
   <a href="" rel="noopener">
- <img width=200px height=200px src="https://i.imgur.com/6wj0hh6.jpg" alt="Project logo"></a>
+ <img width=200px height=200px src="https://blog.dbi-services.com/wp-insides/uploads/sites/2/2021/03/ansible-logo.png" alt="Ansible logo"></a>
 </p>
 
-<h3 align="center">Project Title</h3>
+<h3 align="center">Ansible World - Godwin Theophilus</h3>
 
 <div align="center">
 
