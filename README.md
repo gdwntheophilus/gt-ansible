@@ -45,7 +45,16 @@ These instructions will get you a copy of the project up and running on your loc
 What things you need to install the software and how to install them.
 
 ```
-Give examples
+❯ ansible --version
+ansible [core 2.12.4]
+  config file = None
+  configured module search path = ['/Users/godwin/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /opt/homebrew/Cellar/ansible/5.6.0/libexec/lib/python3.10/site-packages/ansible
+  ansible collection location = /Users/godwin/.ansible/collections:/usr/share/ansible/collections
+  executable location = /opt/homebrew/bin/ansible
+  python version = 3.10.2 (main, Feb  2 2022, 05:51:25) [Clang 13.0.0 (clang-1300.0.29.3)]
+  jinja version = 3.1.1
+  libyaml = True
 ```
 
 ### Installing
