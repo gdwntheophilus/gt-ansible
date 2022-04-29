@@ -1,0 +1,144 @@
+---
+- hosts: digitalocean
+  remote_user: root
+
+  vars:
+    ansible_user: root
+
+    favorite_snacks:
+      - hotdog
+      - ice cream
+      - chips
+    
+    continents: [Africa, Asia, South America, North America, Europe]
+
+    mapvars:
+      - present: tree
+      - present: nmap
+      - absent: apache2
+
+    complexmapvars:
+      - firstname: godwin
+        lastname: theophilus
+      - firstname: sudha
+        lastname: mani
+
+  tasks:
+    - name: Say hello
+      debug:
+        msg: "Hello, World"
+# get value from group vars
+    - name: Apache port number
+      debug:
+        msg: "this is the apache port coming from group_vars/gcloud {{apache_port}}"
+# looping in ansible
+    - name: Mkdir mysql_data_dir
+      debug:
+        msg: "path=/data/mysql/3306/{{ item }} state=directory owner=mysql group=mysql"
+      with_items:
+        - data
+        - logs
+        - tmp
+
+# looping throught vars
+    - name: Create a List variable and print it
+      set_fact: 
+        Continents: ["Asia","Africa","Europe","North America","South America","Antarctica","Australia"]
+        Countries : ['India','Japan', 'Norway', 'Netherlands', 'Switzerland', 'Germany', 'United States of America']
+        
+    - name: Print the Continents
+      debug: var=Continents
+    - name: Print the Countries
+      debug: var=Countries
+    - name: loop through
+      debug:
+        msg: "{{ item }}"
+      with_items: "{{ Continents }}"
+    - name: loop through vars 
+      debug:
+        msg: "{{ item }}"
+      loop:
+        - one
+        - two 
+        - three
+    - name: looping through var defined on the top 
+      debug:
+        msg: "{{ item }}"
+      loop: "{{ favorite_snacks }}"
+
+
+# looping through dictionary maps in ansible
+    - name: looping through maps in ansible 
+      debug:
+        msg: "{{ item.key }} {{ item.value }}"
+      with_dict: "{{ mapvars }}"
+
+
+
+# looping through dictionary maps in ansible
+    - name: looping through complex in ansible 
+      debug:
+        msg: "{{ item.firstname }} {{ item.lastname }}"
+      with_items: "{{ complexmapvars }}"
+
+
+    - name: looping through complex maps defined in the code 
+      debug:
+        msg: "{{ item.firstname }} {{ item.lastname}}"
+      with_items:
+        - { firstname: godwin, lastname: theophilus }
+        - { firstname: sudha, lastname: mani}
+
+# conditional , like if else
+    - name: printing the os version
+      debug:
+        msg: "the current os version is {{ ansible_os_family }}"
+      when: ansible_os_family == "RedHat"
+
+# include another yml files 
+    - name: include the red hat yaml file 
+      include_tasks: redhat.yml
+      when: ansible_os_family == "RedHat" and ansible_pkg_mgr == "yum"
+
+#import tasks from another yml 
+    - name: import tasks form another file 
+      import_tasks: redhat.yml
+      when: ansible_os_family == "RedHat"
+
+# alive check and retries   
+    - name: alive check which may need retries and register output
+      action: uri url=http://www.google.com return_content=yes
+      register: result
+      until: "'failed' not in result or result.content.find('text/html;') != -1"
+      retries: 5
+      delay: 1
+    - name: printing out the registered result 
+      debug:
+        msg: "{{ result }}"
+
+# become privilege
+    - name: create the godwin user 
+      ansible.builtin.user:
+        name: godwin 
+        comment: Godwin Theophilus 
+        uid: 1040
+        group: root
+        shell: /bin/bash
+      ignore_errors: true
+      register: createuser
+
+    - debug: 
+        msg: "{{ createuser }}"
+
+
+    - name: become privilege of a user
+      command: whoami
+      become_user: godwin  
+      become: true
+      register: whoamioutput
+
+    - name: printing the result 
+      debug:
+        msg: "{{ whoamioutput }}"
+
+

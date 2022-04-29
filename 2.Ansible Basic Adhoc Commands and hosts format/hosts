@@ -1,0 +1,16 @@
+[mymac]
+localhost
+
+[mymac:vars]
+ansible_ssh_user=godwin
+ansible_ssh_pass=amitleo9392
+
+
+[targethost]
+192.168.1.1 ansible_user=mrtuovinen ansible_ssh_pass=PassW0rd
+
+
+[MACHINE_NAME]
+MACHINE_NAME hostname=MACHINE_NAME ansible_ssh_host=IP_ADDRESS ansible_port=SSH_PORT
+ansible_connection=ssh ansible_user=USER ansible_ssh_extra_args="-o StrictHostKeyChecking=no -
+o UserKnownHostsFile=/dev/null"

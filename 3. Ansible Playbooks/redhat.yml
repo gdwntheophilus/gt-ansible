@@ -1,0 +1,4 @@
+---
+ - name: called via include function
+   debug:
+    msg: "this is called from the include file"
