@@ -1,0 +1,2 @@
+{{templatevariables}}  this is godwin from ansible
+No change in this line

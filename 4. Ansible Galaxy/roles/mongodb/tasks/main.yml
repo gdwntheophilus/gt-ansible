@@ -1,0 +1,15 @@
+---
+# tasks file for mongodb
+ - name: running this from the ansible galaxy role 
+   debug:
+    msg: "running from ansible galaxy role"
+
+ - name: ping 
+   ping:
+   register: pingputput
+
+# notify to the handler
+ - name: debugging pingoutput
+   debug:
+    msg: "{{ pingputput }}"
+   notify: superman

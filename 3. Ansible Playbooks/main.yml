@@ -23,6 +23,8 @@
       - firstname: sudha
         lastname: mani
 
+    templatevariables: hi
+
   tasks:
     - name: Say hello
       debug:
@@ -142,3 +144,50 @@
         msg: "{{ whoamioutput }}"
 
 
+# using the environment variables
+    - name: env variables 
+      shell: echo my name is $usernamegt
+      environment:
+        usernamegt: "godwin"
+      register: usernamegt
+    
+    - name:
+      debug:
+        msg: "{{ usernamegt }}"
+# using templateing 
+    - name: copying file from local to target using templates
+      template:
+        src: templates/file.txt
+        dest: /tmp/file.txt
+      register: templateoutput
+
+    - debug:
+        msg: "{{ templateoutput }}"
+
+    - name: cat file from local to target using templates
+      shell: cat /tmp/file.txt
+      register: templateoutputcat
+
+    - debug:
+        msg: "{{ templateoutputcat  }}"
+        
+# fail when command
+    - name: fail when
+      shell: echo this is fail when
+      register: result
+      failed_when: 
+       - result.rc != 0
+       - '"this" in result.stdout'
+
+    - name: fail when 2
+      shell: echo this is fail when
+      register: result
+      failed_when: result.rc != 0 or result.rc >= 2
+
+    - name: example of many failed_when conditions with OR
+      shell: echo hi
+      register: ret
+      failed_when: >
+        ("No such file or directory" in ret.stdout) or
+        (ret.stderr != '') or
+        (ret.rc == 10)

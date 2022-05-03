@@ -1,0 +1,22 @@
+---
+- hosts: digitalocean
+  remote_user: root
+  vars:
+    ansible_user: root
+ # this is where the roles are defined, roles are created using ansible-galaxy init rolename   
+  pre_tasks:
+    - name: pretask 
+      debug: 
+        msg: "this is a pre task"
+  roles:
+    - mongodb
+# we can run tasks even after roles
+  tasks:
+    - name: testing
+      debug: 
+        msg: "testing"
+      
+  post_tasks:
+    - name: this is a post tasks 
+      debug:
+        msg: " this is post tasks"
